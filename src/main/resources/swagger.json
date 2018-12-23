@@ -1,0 +1,284 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Seat mapper server",
+    "version": "0.0.0",
+    "description": "Seat mapper server"
+  },
+  "host": "localhost:9000",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/maps": {
+      "get": {
+        "summary": "List all seat maps",
+        "description": "",
+        "operationId": "list",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of seat maps",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PublicSeatMap"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new seat map",
+        "description": "",
+        "operationId": "create",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The map to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SeatMapCreation"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Map created",
+            "schema": {
+              "$ref": "#/definitions/PublicSeatMap"
+            }
+          }
+        }
+      }
+    },
+    "/maps/{id}": {
+      "get": {
+        "summary": "Get the specific seat map",
+        "description": "",
+        "operationId": "find",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the seat map",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail seat maps",
+            "schema": {
+              "$ref": "#/definitions/PublicSeatMap"
+            }
+          },
+          "404": {
+            "description": "Seat map not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a new seat map",
+        "description": "",
+        "operationId": "update",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the seat map",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "The key to use to update the map",
+            "required": true,
+            "type": "string",
+            "format": "password"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The map to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SeatMapUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Map updated",
+            "schema": {
+              "$ref": "#/definitions/PublicSeatMap"
+            }
+          },
+          "403": {
+            "description": "Invalid key"
+          },
+          "404": {
+            "description": "Map not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an existing seat map",
+        "description": "",
+        "operationId": "delete",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the seat map",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "The key to use to update the map",
+            "required": true,
+            "type": "string",
+            "format": "password"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Map deleted"
+          },
+          "403": {
+            "description": "Invalid key"
+          },
+          "404": {
+            "description": "Map not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Coordinates": {
+      "type": "object",
+      "properties": {
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "PublicSeatMap": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "coordinates": {
+          "schema": {
+            "$ref": "#/definitions/Coordinates"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "map": {
+          "type": "json"
+        }
+      }
+    },
+    "SeatMapCreation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "coordinates": {
+          "$ref": "#/definitions/Coordinates"
+        },
+        "description": {
+          "type": "string"
+        },
+        "map": {
+          "type": "string",
+          "format": "json"
+        },
+        "updateKey": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "SeatMapUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "coordinates": {
+          "$ref": "#/definitions/Coordinates"
+        },
+        "description": {
+          "type": "string"
+        },
+        "map": {
+          "type": "string",
+          "format": "json"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Project repository",
+    "url": "https://github.com/grizio/seat-mapper-server"
+  }
+}

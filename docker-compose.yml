@@ -1,0 +1,19 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres:11.1
+    container_name: seat-mapper-server
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "seat-mapper-server"
+      POSTGRES_PASSWORD: "seat-mapper-server"
+      POSTGRES_DB: "seat-mapper-server"
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: seat-mapper-server-swagger
+    ports:
+      - "8081:8080"
+    environment:
+      API_URL: "http://localhost:9000/swagger.json"
