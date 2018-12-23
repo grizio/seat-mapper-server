@@ -6,7 +6,7 @@ import scalikejdbc.{ConnectionPool, ConnectionPoolSettings}
 import sms.configuration.Configuration
 import sms.controller.Controller
 import sms.persistence.Persistence
-import sms.router.{Cors, Router}
+import sms.router.{ClientRouter, Cors, Router}
 import sms.service.Service
 
 import scala.concurrent.ExecutionContext
@@ -33,5 +33,6 @@ class Sms() {
   val service = new Service(persistence)
   val controller = new Controller(service)
   val cors = new Cors(configuration)
-  val router = new Router(cors, controller)
+  val clientRouter = new ClientRouter(configuration)
+  val router = new Router(clientRouter, cors, controller)
 }

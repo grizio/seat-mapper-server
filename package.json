@@ -9,9 +9,11 @@
   "author": "Gaëtan Rizio",
   "license": "MIT",
   "dependencies": {
+    "leaflet": "1.3.4",
     "preact": "8.4.2"
   },
   "devDependencies": {
+    "@types/leaflet": "1.2.14",
     "csstype": "2.5.8",
     "html-loader": "0.5.5",
     "html-webpack-plugin": "3.2.0",

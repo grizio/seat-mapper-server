@@ -5,7 +5,8 @@ import com.typesafe.config.{Config, ConfigFactory}
 case class Configuration(
   environment: Environment.Value,
   server: Server,
-  database: Database
+  database: Database,
+  client: ClientConfiguration
 )
 
 object Environment extends Enumeration {
@@ -51,7 +52,8 @@ object Configuration {
         name = config.getString("database.name"),
         initialSize = config.getInt("database.initialSize"),
         maxSize = config.getInt("database.maxSize")
-      )
+      ),
+      client = ClientConfiguration.load(config)
     )
   }
 }

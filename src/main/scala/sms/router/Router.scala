@@ -2,14 +2,16 @@ package sms.router
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import sms.controller.Controller
+import sms.json.CommonJson._
+import sms.json.SeatMapJson._
 import sms.model.{SeatMap, SeatMapCreation, SeatMapUpdate}
 import sms.router.PathMatchers._
 import sms.router.Unmarshallers._
-import sms.json.CommonJson._
-import sms.json.SeatMapJson._
 
 class Router(
+  clientRouter: ClientRouter,
   cors: Cors,
   controller: Controller
 ) {
@@ -38,6 +40,8 @@ class Router(
       path("swagger.json") {
         getFromResource("swagger.json")
       }
+    } ~ {
+      clientRouter.route
     }
   }
 }

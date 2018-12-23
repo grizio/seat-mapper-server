@@ -41,7 +41,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./src/main/typescript/index.html"
+      template: "./src/main/resources/index.html"
     })
   ]
 }
