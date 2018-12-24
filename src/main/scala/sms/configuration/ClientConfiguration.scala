@@ -3,6 +3,7 @@ package sms.configuration
 import com.typesafe.config.Config
 
 case class ClientConfiguration(
+  server: String,
   leaflet: Leaflet
 )
 
@@ -16,6 +17,7 @@ case class Leaflet(
 object ClientConfiguration {
   def load(config: Config): ClientConfiguration = {
     ClientConfiguration(
+      server = config.getString("client.server"),
       leaflet = Leaflet(
         tileLayer = config.getString("client.leaflet.tileLayer"),
         attribution = config.getString("client.leaflet.attribution"),
