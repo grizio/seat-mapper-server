@@ -3,6 +3,7 @@ const windowConfiguration: Configuration | undefined = window.configuration
 import localConfiguration from "./local.conf"
 
 export interface Configuration {
+  server: string
   leaflet: {
     tileLayer: string
     attribution: string

@@ -6,5 +6,5 @@ import spray.json.JsonFormat
 
 object ConfigurationJson {
   implicit val leafletFormat: JsonFormat[Leaflet] = jsonFormat4(Leaflet.apply)
-  implicit val clientConfigurationFormat: JsonFormat[ClientConfiguration] = jsonFormat1(ClientConfiguration.apply)
+  implicit val clientConfigurationFormat: JsonFormat[ClientConfiguration] = jsonFormat2(ClientConfiguration.apply)
 }

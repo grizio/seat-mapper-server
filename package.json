@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "leaflet": "1.3.4",
-    "preact": "8.4.2"
+    "preact": "8.4.2",
+    "seat-mapper": "0.2.0"
   },
   "devDependencies": {
     "@types/leaflet": "1.2.14",
