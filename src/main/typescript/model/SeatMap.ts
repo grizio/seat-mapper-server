@@ -1,4 +1,4 @@
-interface SeatMap {
+export interface SeatMap {
   id: string
   name: string
   address: string
@@ -7,7 +7,11 @@ interface SeatMap {
   map: object
 }
 
-interface Coords {
+export interface Coords {
   latitude: number
   longitude: number
+}
+
+export function coordsEqual(coords1: Coords, coords2: Coords): boolean {
+  return coords1.longitude === coords2.longitude && coords1.latitude === coords2.latitude
 }

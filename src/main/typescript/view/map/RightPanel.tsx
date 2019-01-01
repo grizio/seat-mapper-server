@@ -1,4 +1,5 @@
 import {h} from "preact"
+import {SeatMap} from "../../model/SeatMap"
 
 interface Props {
   selectedSeatMap?: SeatMap
@@ -32,6 +33,8 @@ function empty() {
   return (
     <section class="right-panel">
       <p>Select a point for more information</p>
+
+      <a href="/new">New seat map</a>
     </section>
   )
 }

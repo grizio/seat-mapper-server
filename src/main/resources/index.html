@@ -32,6 +32,37 @@
       flex-basis: 500px;
       overflow-y: auto;
     }
+
+    .field {
+      display: flex;
+    }
+
+    .field label {
+      flex-basis: 300px;
+    }
+
+    .field input {
+      flex-grow: 1;
+    }
+
+    .field textarea {
+      flex-grow: 1;
+      height: 10rem;
+    }
+
+    .address-field {
+      position: relative;
+    }
+
+    .address-field input + div {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: 500px;
+      display: flex;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>

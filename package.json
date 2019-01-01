@@ -11,6 +11,7 @@
   "dependencies": {
     "leaflet": "1.3.4",
     "preact": "8.4.2",
+    "preact-router": "2.6.1",
     "seat-mapper": "0.2.0"
   },
   "devDependencies": {
