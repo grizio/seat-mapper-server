@@ -2,31 +2,43 @@ import {Component, h} from "preact"
 import {SeatMapCreation} from "../../model/SeatMapCreation"
 import AddressField from "../components/AddressField"
 import {Coords} from "../../model/SeatMap"
-import {create} from "../../api/server"
+import {update} from "../../api/server"
 import * as router from "preact-router"
 import {SeatMapperChangeEvent} from "seat-mapper"
-import {generateKey} from "../../utils/string"
 import * as storage from "../../storage"
+import {SeatMapUpdate} from "../../model/SeatMapUpdate"
+import {StoredSeatMap} from "../../model/StoredSeatMap"
 
-interface State {
-  seatMap: SeatMapCreation
+interface Props {
+  id?: string
 }
 
-export default class CreationPage extends Component<{}, State> {
-  constructor(props: {}) {
+interface State {
+  storedSeatMap: StoredSeatMap
+  seatMap: SeatMapUpdate
+}
+
+export default class UpdatePage extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
-    this.setState({
-      seatMap: {
-        name: "",
-        address: "",
-        coordinates: {latitude: 0, longitude: 0},
-        description: "",
-        updateKey: generateKey()
+    if (props.id !== undefined) {
+      const storedSeatMap = storage.getStoredSeatMap(props.id)
+      if (storedSeatMap !== undefined) {
+        this.setState({
+          storedSeatMap,
+          seatMap: {
+            name: storedSeatMap.name,
+            address: storedSeatMap.address,
+            coordinates: storedSeatMap.coordinates,
+            description: storedSeatMap.description,
+            map: storedSeatMap.map
+          }
+        })
       }
-    })
+    }
   }
 
-  render({}: {}, state: State) {
+  render({}: Props, state: State) {
     return (
       <main>
         <form onSubmit={this.onSubmit}>
@@ -77,9 +89,9 @@ export default class CreationPage extends Component<{}, State> {
 
   onSubmit = (event: Event) => {
     event.preventDefault()
-    create(this.state.seatMap)
-      .then(seatMap => {
-        storage.persistSeatMap({...seatMap, updateKey: this.state.seatMap.updateKey})
+    update(this.state.storedSeatMap.id, this.state.storedSeatMap.updateKey, this.state.seatMap)
+      .then(() => {
+        storage.persistSeatMap({...this.state.seatMap, id: this.state.storedSeatMap.id, updateKey: this.state.storedSeatMap.updateKey})
         router.route("/")
       })
   }

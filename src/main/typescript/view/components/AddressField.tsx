@@ -36,6 +36,7 @@ export default class AddressField extends Component<Props, State> {
 
   componentDidMount(): void {
     document.addEventListener("mousedown", this.openOrClose)
+    this.search()
   }
 
   componentWillUnmount(): void {
@@ -100,7 +101,6 @@ export default class AddressField extends Component<Props, State> {
   }
 
   onInput = (event: Event) => {
-
     this.setState(
       {address: (event.target as HTMLInputElement).value},
       () => {

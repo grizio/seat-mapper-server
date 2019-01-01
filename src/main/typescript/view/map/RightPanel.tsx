@@ -1,5 +1,6 @@
 import {h} from "preact"
 import {SeatMap} from "../../model/SeatMap"
+import * as storage from "../../storage"
 
 interface Props {
   selectedSeatMap?: SeatMap
@@ -18,6 +19,12 @@ function seatMapInformation(seatMap: SeatMap, deselectSeatMap: () => void) {
   return <section class="right-panel">
     <button onClick={deselectSeatMap}>Close</button>
     <h3>{seatMap.name}</h3>
+
+    {
+      storage.containsSeatMap(seatMap.id)
+        ? <a href={`${seatMap.id}/update`}>Update</a>
+        : undefined
+    }
 
     <p>{seatMap.address}</p>
 
