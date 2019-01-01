@@ -27,3 +27,9 @@ export function update(id: string, updateKey: string, seatMapUpdate: SeatMapUpda
     body: JSON.stringify(seatMapUpdate)
   }).then(_ => _.json())
 }
+
+export function deleteSeatMap(id: string, updateKey: string): Promise<void> {
+  return fetch(`${configuration.server}/maps/${id}?key=${updateKey}`, {
+    method: "delete"
+  }).then(_ => {})
+}

@@ -1,8 +1,9 @@
 import {Component, h} from "preact"
 import LeafletView from "./LeafletView"
-import {list} from "../../api/server"
+import {deleteSeatMap, list} from "../../api/server"
 import {RightPanel} from "./RightPanel"
 import {SeatMap} from "../../model/SeatMap"
+import * as storage from "../../storage"
 
 interface State {
   seatMaps: Array<SeatMap>
@@ -18,7 +19,7 @@ export default class MapPage extends Component<{}, State> {
   }
 
   componentDidMount(): void {
-    list().then(seatMaps => this.setState({seatMaps}))
+    this.reload()
   }
 
   render(_: {}, state: State) {
@@ -33,8 +34,13 @@ export default class MapPage extends Component<{}, State> {
       <RightPanel
         selectedSeatMap={state.selectedSeatMap}
         deselectSeatMap={this.deselectSeatMap}
+        deleteSelectedSeatMap={this.deleteSelectedSeatMap}
       />
     </main>
+  }
+
+  reload = () => {
+    list().then(seatMaps => this.setState({seatMaps}))
   }
 
   selectSeatMap = (seatMap: SeatMap) => {
@@ -43,5 +49,18 @@ export default class MapPage extends Component<{}, State> {
 
   deselectSeatMap = () => {
     this.setState({selectedSeatMap: undefined})
+  }
+
+  deleteSelectedSeatMap = () => {
+    if (this.state.selectedSeatMap !== undefined) {
+      const storedSeatMap = storage.getStoredSeatMap(this.state.selectedSeatMap.id)
+      if (storedSeatMap !== undefined && confirm("Delete selected seat map?")) {
+        deleteSeatMap(storedSeatMap.id, storedSeatMap.updateKey)
+          .then(() => {
+            storage.removeSeatMap(storedSeatMap.id)
+            this.reload()
+          })
+      }
+    }
   }
 }

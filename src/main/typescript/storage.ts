@@ -27,3 +27,11 @@ export function persistSeatMap(seatMap: StoredSeatMap): void {
   ]
   localStorage.setItem(storageKey, JSON.stringify(newSeatMaps))
 }
+
+export function removeSeatMap(id: string): void {
+  const storedSeatMaps = getAllStoredSeatMaps()
+  const newSeatMaps = [
+    ...storedSeatMaps.filter(_ => _.id !== id),
+  ]
+  localStorage.setItem(storageKey, JSON.stringify(newSeatMaps))
+}

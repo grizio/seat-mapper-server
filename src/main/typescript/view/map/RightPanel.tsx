@@ -5,25 +5,29 @@ import * as storage from "../../storage"
 interface Props {
   selectedSeatMap?: SeatMap
   deselectSeatMap: () => void
+  deleteSelectedSeatMap: () => void
 }
 
 export function RightPanel(props: Props) {
   if (props.selectedSeatMap !== undefined) {
-    return seatMapInformation(props.selectedSeatMap, props.deselectSeatMap)
+    return seatMapInformation(props.selectedSeatMap, props)
   } else {
     return empty()
   }
 }
 
-function seatMapInformation(seatMap: SeatMap, deselectSeatMap: () => void) {
+function seatMapInformation(seatMap: SeatMap, {deselectSeatMap, deleteSelectedSeatMap}: Props) {
   return <section class="right-panel">
     <button onClick={deselectSeatMap}>Close</button>
     <h3>{seatMap.name}</h3>
 
     {
       storage.containsSeatMap(seatMap.id)
-        ? <a href={`${seatMap.id}/update`}>Update</a>
-        : undefined
+        ? [
+          <a href={`${seatMap.id}/update`}>Update</a>,
+          <button onClick={deleteSelectedSeatMap}>Delete</button>
+        ]
+        : []
     }
 
     <p>{seatMap.address}</p>
