@@ -13,7 +13,7 @@ export default class App extends Component<{}, {}> {
     return (
       <Router>
         <MapPage path="/"/>
-        <CreationPage path="/new/york"/>
+        <CreationPage path="/new"/>
         <UpdatePage path="/:id/update"/>
       </Router>
     )
