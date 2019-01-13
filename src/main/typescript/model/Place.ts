@@ -19,5 +19,39 @@ export interface OSMPlace {
   class: string
   type: string
   importance: number
-  icon: string
+  icon: string,
+  address: {
+    community_centre?: string
+    house_number?: string
+    footway?: string
+    road?: string
+    neighbourhood: string
+    suburb: string
+    village?: string
+    city?: string
+    county: string
+    state: string
+    country: string
+    postcode: string
+    country_code: string
+  }
+}
+
+export function normalizedAddress(osmPlace: OSMPlace): string {
+  const address = osmPlace.address
+
+  const addressPart = address.community_centre
+    ? [ address.community_centre ]
+    : [
+      address.house_number || '',
+      address.footway || address.road || ''
+    ]
+  const cityPart = [
+    address.postcode,
+    address.city || address.village || ''
+  ]
+  return [
+    ...addressPart,
+    ...cityPart
+  ].join(' ')
 }
